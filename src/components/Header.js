@@ -1,15 +1,50 @@
 import styled from 'styled-components';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import React from 'react';
+import initializeFirebase from './Hooks/firebaseinit';
+import {useDispatch, useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {selectUserName, selectUserEmail, selectUserPhoto, setUserLoginDetails} from "./features/users/userSlice";
 
+initializeFirebase();
+ 
+const Header = (props) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const userName = useSelector(selectUserName);
+    const userPhoto = useSelector(selectUserPhoto)
 
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
 
-const Header = () => {
+    const handleAuth = () => {
+       signInWithPopup(auth, provider)
+        .then((result) =>{
+            setUser(result.user)
+        }).catch((error) =>{
+            alert(error.massage)
+        });
+    };
+
+    const setUser = (user) =>{
+        dispatch(
+            setUserLoginDetails({
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoUrl,
+            })
+        )
+    }
+
     return (
         <Nav>
             <Logo>
                 <img src="/images/logo.svg" alt="Disney" />
             </Logo>
-            <NavManu> 
+            {!userName ? 
+             <Login onClick={handleAuth}>Login</Login> : 
+            <>
+                <NavManu> 
                 <a href='/home'>
                     <img src="/images/home-icon.svg" alt="HOME" />
                     <span>HOME</span>
@@ -36,7 +71,9 @@ const Header = () => {
                 </a>
                     
                 </NavManu>
-                <Login>Login</Login>
+            </>}
+            
+               
         </Nav>
     );
 };
