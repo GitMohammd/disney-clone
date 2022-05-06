@@ -4,7 +4,7 @@ import React from 'react';
 import initializeFirebase from './Hooks/firebaseinit';
 import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {selectUserName, selectUserEmail, selectUserPhoto, setUserLoginDetails} from "./features/users/userSlice";
+import {selectUserName, selectUserEmail, selectUserPhoto, setUserLoginDetails} from "../features/users/userSlice";
 
 initializeFirebase();
  
@@ -20,6 +20,7 @@ const Header = (props) => {
     const handleAuth = () => {
        signInWithPopup(auth, provider)
         .then((result) =>{
+            console.log(result)
             setUser(result.user)
         }).catch((error) =>{
             alert(error.massage)
@@ -31,7 +32,7 @@ const Header = (props) => {
             setUserLoginDetails({
                 name: user.displayName,
                 email: user.email,
-                photo: user.photoUrl,
+                photo: user.photoURL,
             })
         )
     }
@@ -71,6 +72,7 @@ const Header = (props) => {
                 </a>
                     
                 </NavManu>
+                <UserImg src={userPhoto} alt={userName} />
             </>}
             
                
@@ -180,6 +182,9 @@ const Login = styled.a`
         color: #000;
         border-color: transparent;
     }
+`;
+const UserImg = styled.img`
+    height: 100%;
 `;
 
 export default Header;
