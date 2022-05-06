@@ -2,6 +2,26 @@ import styled from 'styled-components';
 import React from 'react';
 import Header from './Header';
 
+
+const Login = () => {
+    return (
+        <>
+        <Header />
+        <Container>
+            <Content>
+                <CTA>
+                    <CTALogoONe src="/images/cta-logo-one.svg" alt="" />
+                    <SignUp>GET ALL THERE</SignUp>
+                    <Description>Get Premier Access to Raya and the Last Dragon for a additional free with a Disney+ subscription. As of 03/26/22 , the price of Disney+ and the Disney Bundle will increase by $1</Description>
+                    <CTALogotwo src="/images/cta-logo-two.png" alt="" />
+                </CTA>
+                <BgImage />
+            </Content>
+        </Container>
+        </>
+    );
+};
+
 const Container = styled.section`
     overflow: hidden;
     display: flex;
@@ -24,9 +44,10 @@ const Content =styled.div`
 `;
 const BgImage = styled.div`
     height: 100%;
+    width: 100%;
     background-position: top;
     background-size: cover;
-    /* background-repeat: no-repeat; */
+    background-repeat: no-repeat;
     background-image: url("/images/login-background.jpg");
     position: absolute;
     top: 0;
@@ -79,23 +100,5 @@ const CTALogotwo = styled.img`
     width: 100%;
 `;
 
-const Login = () => {
-    return (
-        <>
-        <Header />
-        <Container>
-            <Content>
-                <CTA>
-                    <CTALogoONe src="/images/cta-logo-one.svg" alt="" />
-                    <SignUp>GET ALL THERE</SignUp>
-                    <Description>Get Premier Access to Raya and the Last Dragon for a additional free with a Disney+ subscription. As of 03/26/22 , the price of Disney+ and the Disney Bundle will increase by $1</Description>
-                    <CTALogotwo src="/images/cta-logo-two.png" alt="" />
-                </CTA>
-                <BgImage />
-            </Content>
-        </Container>
-        </>
-    );
-};
 
 export default Login;
