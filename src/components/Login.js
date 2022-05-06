@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+import Header from './Header';
 
 const Container = styled.section`
     overflow: hidden;
@@ -70,19 +71,30 @@ const Description = styled.p`
     line-height: 1.5;
     letter-spacing: 1.5px;
 `;
+const CTALogotwo = styled.img`
+    max-width: 600px;
+    margin-bottom: 20px;
+    display: inline-block;
+    vertical-align: bottom;
+    width: 100%;
+`;
 
 const Login = () => {
     return (
+        <>
+        <Header />
         <Container>
             <Content>
                 <CTA>
                     <CTALogoONe src="/images/cta-logo-one.svg" alt="" />
                     <SignUp>GET ALL THERE</SignUp>
                     <Description>Get Premier Access to Raya and the Last Dragon for a additional free with a Disney+ subscription. As of 03/26/22 , the price of Disney+ and the Disney Bundle will increase by $1</Description>
+                    <CTALogotwo src="/images/cta-logo-two.png" alt="" />
                 </CTA>
                 <BgImage />
             </Content>
         </Container>
+        </>
     );
 };
 
