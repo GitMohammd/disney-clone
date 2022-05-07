@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import React from 'react';
-import initializeFirebase from './Hooks/firebaseinit';
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useEffect } from 'react';
+import initializeFirebase from '../Hooks/firebaseinit';
 import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {selectUserName, selectUserEmail, selectUserPhoto, setUserLoginDetails} from "../features/users/userSlice";
+import {selectUserName, selectUserEmail, selectUserPhoto, setUserLoginDetails, setSignOutState} from "../features/users/userSlice";
 
 initializeFirebase();
  
@@ -17,14 +17,32 @@ const Header = (props) => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
+    useEffect(() =>{
+        onAuthStateChanged(auth, (user) =>{
+            if(user) {
+                setUser(user);
+                navigate("/home")
+            }
+        })
+    }, [userName])
+
     const handleAuth = () => {
-       signInWithPopup(auth, provider)
-        .then((result) =>{
-            console.log(result)
-            setUser(result.user)
-        }).catch((error) =>{
-            alert(error.massage)
-        });
+        if (!userName){
+        signInWithPopup(auth, provider)
+            .then((result) =>{
+                console.log(result)
+                setUser(result.user)
+            }).catch((error) =>{
+                alert(error.massage)
+             });
+        }else if (userName) {
+            signOut(auth).then(() =>{
+                dispatch(setSignOutState())
+                navigate('/')
+            }).catch ((error) =>{
+                alert(error.massage)
+            })
+        }
     };
 
     const setUser = (user) =>{
@@ -72,7 +90,13 @@ const Header = (props) => {
                 </a>
                     
                 </NavManu>
-                <UserImg src={userPhoto} alt={userName} />
+                <SignOut>
+                    <UserImg src={userPhoto} alt={userName} />
+                    <DrowpDown>
+                        <span onClick={handleAuth}>SIGNOUT</span>
+                    </DrowpDown>
+                </SignOut>
+               
             </>}
             
                
@@ -185,6 +209,44 @@ const Login = styled.a`
 `;
 const UserImg = styled.img`
     height: 100%;
+    width: 100%;
+    border-radius: 50%;
+`;
+
+const DrowpDown = styled.div`
+    position: absolute;
+    top: 48px;
+    right: 0;
+    background-color: rgb(19, 19, 19);
+    border: 1px solid rgba(151, 151, 151, 0.34);
+    border-radius: 4px;
+    box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+    padding: 10px;
+    font-size: 14px;
+    letter-spacing: 3px;
+    width: 100px;
+    opacity: 0;
+`;
+
+const SignOut = styled.div`
+    position: relative;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        ${DrowpDown} {
+            opacity: 1;
+            transition-duration: 1s;
+        }
+    }
+
+    ${UserImg} {
+        
+    }
 `;
 
 export default Header;
