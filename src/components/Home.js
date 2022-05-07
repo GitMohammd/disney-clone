@@ -5,13 +5,10 @@ import ImageSlider from './ImageSlider';
 
 const Home = () => {
     return (
-        
-        <>
-            <Header />
             <Container>
+            <Header />
                <ImageSlider />
             </Container>
-        </>
     );
 };
 
@@ -21,15 +18,16 @@ const Container = styled.main`
     overflow-x: hidden;
     display: block;
     top: 72px;
-    padding: 0 calc(3.5vw +5px);
+    padding: 0 calc(3.5vw + 5px);
 
     &:after {
-        background: url('/images/home-background.png') center center / cover no-repeat fixed;
-        content: "";
-        position: absolute;
-        inset: 0px;
-        opacity: 1;
-        z-index: -1;;
+    background: url("/images/home-background.png") center center / cover
+      no-repeat fixed;
+    content: "";
+    position: absolute;
+    inset: 0px;
+    opacity: 1;
+    z-index: -1;
     }
 `;
 
