@@ -30,7 +30,6 @@ const Header = (props) => {
         if (!userName){
         signInWithPopup(auth, provider)
             .then((result) =>{
-                console.log(result)
                 setUser(result.user)
             }).catch((error) =>{
                 alert(error.massage)
